@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desain Arsitektur 3D Rumah</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Inisialisasi scene, camera, dan renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Fungsi untuk membuat rumah
+        function createHouse() {
+            // Badan rumah
+            const houseGeometry = new THREE.BoxGeometry(2, 1, 2);
+            const houseMaterial = new THREE.MeshBasicMaterial({ color: 0x8B4513 }); // Coklat
+            const house = new THREE.Mesh(houseGeometry, houseMaterial);
+            scene.add(house);
+
+            // Atap
+            const roofGeometry = new THREE.ConeGeometry(1.5, 1, 4);
+            const roofMaterial = new THREE.MeshBasicMaterial({ color: 0xFF0000 }); // Merah
+            const roof = new THREE.Mesh(roofGeometry, roofMaterial);
+            roof.position.y = 1.5; // Atur posisi atap
+            scene.add(roof);
+
+            // Jendela
+            const windowGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.1);
+            const windowMaterial = new THREE.MeshBasicMaterial({ color: 0xADD8E6 }); // Biru muda
+            const window1 = new THREE.Mesh(windowGeometry, windowMaterial);
+            window1.position.set(-0.75, 0, 1.01); // Posisi jendela kiri
+            scene.add(window1);
+
+            const window2 = new THREE.Mesh(windowGeometry, windowMaterial);
+            window2.position.set(0.75, 0, 1.01); // Posisi jendela kanan
+            scene.add(window2);
+
+            // Pintu
+            const doorGeometry = new THREE.BoxGeometry(0.5, 0.75, 0.1);
+            const doorMaterial = new THREE.MeshBasicMaterial({ color: 0x654321 }); // Coklat tua
+            const door = new THREE.Mesh(doorGeometry, doorMaterial);
+            door.position.set(0, -0.25, 1.01); // Posisi pintu
+            scene.add(door);
+        }
+
+        createHouse();
+
+        // Mengatur posisi kamera
+        camera.position.z = 5;
+
+        // Fungsi animasi
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Responsif
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
