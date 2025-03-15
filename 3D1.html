@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desain Arsitektur 3D Rumah</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Inisialisasi scene, camera, dan renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Membuat geometri untuk rumah
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const house = new THREE.Mesh(geometry, material);
+        scene.add(house);
+
+        // Menambahkan atap
+        const roofGeometry = new THREE.ConeGeometry(0.75, 0.5, 4);
+        const roofMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        const roof = new THREE.Mesh(roofGeometry, roofMaterial);
+        roof.position.y = 1; // Atur posisi atap
+        scene.add(roof);
+
+        // Mengatur posisi kamera
+        camera.position.z = 5;
+
+        // Fungsi animasi
+        function animate() {
+            requestAnimationFrame(animate);
+            house.rotation.x += 0.01;
+            house.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Responsif
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
